@@ -2,6 +2,7 @@ import discord
 import os
 import random
 import math
+import emoji
 
 from discord.ext.commands import CommandNotFound
 from discord.ext import commands
@@ -77,7 +78,9 @@ async def rematchUsers():
     i=1
     for pair in pairs:
         category = bot.get_channel(int(os.environ.get('SPEEDDATING_CATEGORY')))
-        channel = await category.create_voice_channel('SpeedDating#'+str(i), user_limit=2)
+        channeltitle = emoji.emojize(':two_hearts::kiss: SpeedDating #')+str(i)
+        channel = await category.create_voice_channel(channeltitle, user_limit=2)
+        i += 1
         for user in pair:
             await user.move_to(channel)
 
