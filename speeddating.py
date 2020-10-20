@@ -66,9 +66,14 @@ async def rematchUsers():
     speedDatingChannels = [i for i in await listVoiceChannels() if str(i).startswith('SpeedDating#')]
     for channel in speedDatingChannels:
         for user in channel.members:
-            await user.move_to(waitingRoom)
+            if (user.voiceChannel):
+                await user.move_to(waitingRoom)
         await channel.delete()
-    datingUsers = waitingRoom.members
+    datingUsersMaybeConnected = waitingRoom.members
+    datingUsers = []
+    for datingUser in datingUsersMaybeConnected:
+        if (datingUser.voiceChannel):
+            datingUsers.append(datingUser)
     if len(datingUsers) == 0:
         print(f"No Erstis to Speeddate :(")
         return
